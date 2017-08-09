@@ -3,9 +3,11 @@ local NetScene = class("NetScene", function (  )
     return cc.Scene:create()
 end)
 
+local NetSocket = require("app.manager.NetManager")
+
 function NetScene:create(  )
     local scene = NetScene.new()
-    local layer = scene:createLayer1()
+    local layer = scene:createLayer2()
     scene:addChild(layer)
     return scene
 
@@ -51,6 +53,36 @@ end
 function NetScene:createLayer1(  )
     local layer = cc.Layer:create()
 
+    -- local bgSprite = cc.LayerColor:create(cc.c3b(255,255,255))
+    -- layer:addChild(bgSprite)
+     local bgSprite = cc.Sprite:create("Rectangle-white.png")
+     bgSprite:setPosition(cc.p(display.cx,display.cy))
+     bgSprite:setScale(10.0)
+     layer:addChild(bgSprite)
+
+
+
+    local label1 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 400)
+            :addTo(layer, 0, 101)
+
+    local label2 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 320)
+            :addTo(layer, 0, 102)
+
+    local label3 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 240)
+            :addTo(layer, 0, 103)
+
+    local label4 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 160)
+            :addTo(layer, 0, 104)
+
+    local label5 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 80)
+            :addTo(layer, 0, 105)
+
+
     local ws = cc.WebSocket:create("ws://localhost:8181")
 
     local isClose = false
@@ -79,6 +111,14 @@ function NetScene:createLayer1(  )
 
     local function wsSendTextMessage( strData )
         dump(json.decode(strData), "webSocket response")
+        local tempJson = json.decode(strData)
+        local i = 1
+        for i,v in ipairs(tempJson) do
+            if type(i) == "string" then
+                local label = layer:getChildByTag(100 + i)
+                label:setString(i.." "..tostring(v))
+            end
+        end
     end
 
     local function wsSendTextError( strData )
@@ -99,6 +139,71 @@ function NetScene:createLayer1(  )
     return layer
 end
 
+function NetScene:createLayer2(  )
+    local layer = cc.Layer:create()
 
+    local bgSprite = cc.Sprite:create("Rectangle-white.png")
+     bgSprite:setPosition(cc.p(display.cx,display.cy))
+     bgSprite:setScale(10.0)
+     layer:addChild(bgSprite)
+
+    local label1 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 400)
+            :addTo(layer, 0, 101)
+
+    local label2 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 320)
+            :addTo(layer, 0, 102)
+
+    local label3 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 240)
+            :addTo(layer, 0, 103)
+
+    local label4 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 160)
+            :addTo(layer, 0, 104)
+
+    local label5 = cc.Label:createWithSystemFont("", "", 36)
+            :align(display.LEFT_CENTER, 200, 80)
+            :addTo(layer, 0, 105)
+
+    local ws = NetSocket:new()
+
+    ws.openHandle = function ( strData )
+        dump(strData, "webSocket open")
+        local temp = {
+            stocks = {
+                "AAPL",
+                "MSFT",
+                "AMZN",
+                "GOOG",
+                "YHOO"           
+            }
+        }
+        ws:sendString(json.encode(temp))
+    end
+
+    ws.messageHandle = function ( strData )
+        dump(json.decode(strData), "webSocket response")
+        local tempJson = json.decode(strData)
+        local i = 1
+        for i,v in ipairs(tempJson) do
+            if type(i) == "string" then
+                local label = layer:getChildByTag(100 + i)
+                label:setString(i.." "..tostring(v))
+            end
+        end
+    end
+
+    
+
+    ws:start("ws://localhost:8181")
+    
+
+
+
+    return layer
+
+end
 
 return NetScene
