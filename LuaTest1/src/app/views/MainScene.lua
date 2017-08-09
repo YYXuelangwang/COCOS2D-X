@@ -30,8 +30,20 @@ function MainScene:onCreate()
     -- layer:Test4()
     -- self:addChild(layer)
 
-    local scene = require("app.UI.NetScene"):create()
-    
+    -- local scene = require("app.UI.NetScene"):create()
+    -- -- app:enterScene("UI.NetScene")
+    -- scene = cc.Scene:create()
+    -- cc.Director:getInstance():replaceScene(scene)
+
+    local button1 = ccui.Button:create("Images/dot.png")
+    button1:setPosition(cc.p(200,300))
+    self:addChild(button1)
+    button1:addClickEventListener(function (  )
+        local scene = require("app.UI.NetScene"):create()
+        -- app:enterScene("UI.NetScene")
+        scene = cc.Scene:create()
+        cc.Director:getInstance():replaceScene(scene)
+    end)
 
 
     local tempStr = "fanlesxmj://appurl?json="
