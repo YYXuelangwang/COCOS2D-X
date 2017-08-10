@@ -41,7 +41,7 @@ function MainScene:onCreate()
     button1:addClickEventListener(function (  )
         local scene = require("app.UI.NetScene"):create()
         -- app:enterScene("UI.NetScene")
-        scene = cc.Scene:create()
+        -- scene = cc.Scene:create()
         cc.Director:getInstance():replaceScene(scene)
     end)
 

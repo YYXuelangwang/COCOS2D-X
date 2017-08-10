@@ -37,14 +37,17 @@ function NetManager:setHandlers( handlers )
         return
     end
     for i,v in ipairs(handlers) do
-        if i == "openHandle" then
-            self.openHandle = v
-        elseif i == "messageHandle" then
-            self.messageHandle = v
-        elseif i == "errorHandle" then
-            self.errorHandle = v
-        elseif i == "closeHandle" then 
-            self.closeHandle = v
+        if type(v) == "function" then
+        
+            if i == "openHandle" then
+                self.openHandle = v
+            elseif i == "messageHandle" then
+                self.messageHandle = v
+            elseif i == "errorHandle" then
+                self.errorHandle = v
+            elseif i == "closeHandle" then 
+                self.closeHandle = v
+            end
         end
     end
 end
