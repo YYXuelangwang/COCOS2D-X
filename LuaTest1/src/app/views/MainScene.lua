@@ -35,16 +35,23 @@ function MainScene:onCreate()
     -- scene = cc.Scene:create()
     -- cc.Director:getInstance():replaceScene(scene)
 
+
     local button1 = ccui.Button:create("Images/dot.png")
     button1:setPosition(cc.p(200,300))
     self:addChild(button1)
     button1:addClickEventListener(function (  )
-        local scene = require("app.UI.NetScene"):create()
+        -- local scene = require("app.UI.NetScene"):create()
+        local scene = require("app.UI.LabelScene"):create()
         -- app:enterScene("UI.NetScene")
-        scene = cc.Scene:create()
+        -- scene = cc.Scene:create()
         cc.Director:getInstance():replaceScene(scene)
     end)
 
+    --[[直接调用并不会切换场景，猜测可能在执行完该方法后，后面调用了一次director的runScene,所以
+    最后还是当前场景；
+    local scene = require("app.UI.LabelScene"):create()
+    cc.Director:getInstance():replaceScene(scene)
+    ]]
 
     local tempStr = "fanlesxmj://appurl?json="
     print(string.sub( tempStr, 1, -6))
