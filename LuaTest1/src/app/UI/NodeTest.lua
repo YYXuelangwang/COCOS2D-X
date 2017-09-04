@@ -17,6 +17,9 @@ end
 
 function M:CameraCenterTest()
 
+    local layer = cc.CSLoader:createNode("ui/main/CreateRoomItemView.csb")
+    self:addChild(layer)
+
     local layer = M.baseLayer
 
     local sprite = cc.Sprite:create("Rectangle-white.png")
