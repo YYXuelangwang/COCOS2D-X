@@ -14,6 +14,9 @@ require "app.config.init"
 local function main()
     cc.exports.app = require("app.MyApp"):create()
     -- require("app.MyApp"):create():run()
+    cc.exports.cclog = function(...) 
+        print(string.format( ... ))
+    end 
     app:run()
 end
 

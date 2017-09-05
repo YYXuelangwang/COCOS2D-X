@@ -142,30 +142,35 @@ end
 function NetScene:createLayer2(  )
     local layer = cc.Layer:create()
 
-    local bgSprite = cc.Sprite:create("Rectangle-white.png")
-     bgSprite:setPosition(cc.p(display.cx,display.cy))
-     bgSprite:setScale(10.0)
-     layer:addChild(bgSprite)
+    local bgSprite = cc.LayerColor:create(cc.c3b(255,255,255))
+    layer:addChild(bgSprite)
 
-    local label1 = cc.Label:createWithSystemFont("", "", 36)
+    local label1 = cc.Label:createWithSystemFont("test", "arial", 36)
             :align(display.LEFT_CENTER, 200, 400)
             :addTo(layer, 0, 101)
+            :setTextColor(cc.c3b(0,0,0))
 
-    local label2 = cc.Label:createWithSystemFont("", "", 36)
+    local label2 = cc.Label:createWithSystemFont("", "arial", 36)
             :align(display.LEFT_CENTER, 200, 320)
             :addTo(layer, 0, 102)
+            :setTextColor(cc.c3b(0,0,0))
 
-    local label3 = cc.Label:createWithSystemFont("", "", 36)
+    local label3 = cc.Label:createWithSystemFont("", "arial", 36)
             :align(display.LEFT_CENTER, 200, 240)
             :addTo(layer, 0, 103)
+            :setTextColor(cc.c3b(0,0,0))
 
-    local label4 = cc.Label:createWithSystemFont("", "", 36)
+    local label4 = cc.Label:createWithSystemFont("", "arial", 36)
             :align(display.LEFT_CENTER, 200, 160)
             :addTo(layer, 0, 104)
+            :setTextColor(cc.c3b(0,0,0))
 
-    local label5 = cc.Label:createWithSystemFont("", "", 36)
+    local label5 = cc.Label:createWithSystemFont("", "arial", 36)
             :align(display.LEFT_CENTER, 200, 80)
             :addTo(layer, 0, 105)
+            :setTextColor(cc.c3b(0,0,0))
+
+
 
     local ws = NetSocket:new()
 
@@ -187,10 +192,12 @@ function NetScene:createLayer2(  )
         dump(json.decode(strData), "webSocket response")
         local tempJson = json.decode(strData)
         local i = 1
-        for i,v in ipairs(tempJson) do
-            if type(i) == "string" then
+        local m = type(tempJson)
+        for k,v in pairs(tempJson) do
+            if type(k) == "string" then
                 local label = layer:getChildByTag(100 + i)
-                label:setString(i.." "..tostring(v))
+                label:setString(k.." "..tostring(v))
+                i = i+1
             end
         end
     end

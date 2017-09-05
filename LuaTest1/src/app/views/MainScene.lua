@@ -3,9 +3,21 @@ local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
 function MainScene:onCreate()
     -- add background image
-    display.newSprite("HelloWorld.png")
+    local image = display.newSprite("HelloWorld.png")
         :move(display.center)
         :addTo(self)
+
+    --抖动动画
+    local rotate1 = cc.RotateTo:create(0.2, -50)
+    local bcRotate1 = cc.RotateTo:create(0.2, 0)
+    local rotate2 = cc.RotateTo:create(0.2, -50)
+    local bcRotate2 = cc.RotateTo:create(0.2, 50)
+    local scaleBy = cc.ScaleBy:create(0.2, 1.2)
+    local bcScaleBy = scaleBy:reverse()
+    -- rotate2 = rotate1:reverse()
+
+    local seq1 = cc.Sequence:create(scaleBy, rotate1, bcRotate2, rotate1:clone(), bcRotate1, bcScaleBy)
+    image:runAction(cc.RepeatForever:create(seq1))
 
     local size = cc.size(600,700)
 
@@ -41,7 +53,8 @@ function MainScene:onCreate()
     self:addChild(button1)
     button1:addClickEventListener(function (  )
         -- local scene = require("app.UI.NetScene"):create()
-        local scene = require("app.UI.LabelScene"):create()
+        -- local scene = require("app.UI.LabelScene"):create()
+        local scene = require("app.UI.GameScene"):create()
         -- app:enterScene("UI.NetScene")
         -- scene = cc.Scene:create()
         cc.Director:getInstance():replaceScene(scene)
